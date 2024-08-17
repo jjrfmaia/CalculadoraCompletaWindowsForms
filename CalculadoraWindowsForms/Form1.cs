@@ -48,144 +48,126 @@ namespace CalculadoraWindowsForms
 
         }
 
-        private void btn9_Click(object sender, EventArgs e)
+        private void AdicionarNumero(string numero)
         {
+            // Se é uma nova operação ou o visor contém "0", limpa o visor
             if (operacaoEmAndamento || ttbView.Text == "0")
             {
                 ttbView.Clear();
                 operacaoEmAndamento = false;
             }
 
-            ttbView.Text += "9";
+            // Adiciona o número ao visor
+            ttbView.Text += numero;
+        }
+
+        private void btn9_Click(object sender, EventArgs e)
+        {
+            {
+                AdicionarNumero("9");
+            }
         }
 
         private void btn8_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("8");
             }
-
-            ttbView.Text += "8";
         }
 
         private void btn7_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("7");
             }
-
-            ttbView.Text += "7";
         }
 
         private void btn6_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("6");
             }
-
-            ttbView.Text += "6";
         }
 
         private void btn5_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("5");
             }
-
-            ttbView.Text += "5";
         }
 
         private void btn4_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("4");
             }
-
-            ttbView.Text += "4";
         }
 
         private void btn3_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("3");
             }
-
-            ttbView.Text += "3";
         }
 
         private void btn2_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("2");
             }
-
-            ttbView.Text += "2";
         }
 
         private void btn1_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("1");
             }
-
-            ttbView.Text += "1";
         }
 
         private void btn0_Click(object sender, EventArgs e)
         {
-            if (operacaoEmAndamento || ttbView.Text == "0")
             {
-                ttbView.Clear();
-                operacaoEmAndamento = false;
+                AdicionarNumero("0");
             }
-
-            ttbView.Text += "0";
         }
 
         private void btnEqual_Click(object sender, EventArgs e)
         {
-            double valorNovo = Convert.ToDouble(ttbView.Text);
-            double resultado = 0;
-
-            switch (operador)
+            // Tenta converter o valor do visor para um número decimal
+            if (double.TryParse(ttbView.Text, out double valorNovo))
             {
-                case "+":
-                    resultado = valorAtual + valorNovo;
-                    break;
-                case "-":
-                    resultado = valorAtual - valorNovo;
-                    break;
-                case "*":
-                    resultado = valorAtual * valorNovo;
-                    break;
-                case "/":
-                    if (valorNovo != 0)
-                        resultado = valorAtual / valorNovo;
-                    else
-                        MessageBox.Show("Erro: Divisão por zero!");
-                    break;
-            }
+                double resultado = 0;
 
-            ttbView.Text = resultado.ToString();
-            valorAtual = resultado;
-            operador = "";
-            operacaoEmAndamento = false;  // Isso evita problemas em operações futuras
+                // Verifica o operador e realiza a operação correspondente
+                switch (operador)
+                {
+                    case "+":
+                        resultado = valorAtual + valorNovo;
+                        break;
+                    case "-":
+                        resultado = valorAtual - valorNovo;
+                        break;
+                    case "*":
+                        resultado = valorAtual * valorNovo;
+                        break;
+                    case "/":
+                        if (valorNovo != 0)
+                            resultado = valorAtual / valorNovo;
+                        else
+                            MessageBox.Show("Erro: Divisão por zero!");
+                        break;
+                }
+
+                // Atualiza o visor com o resultado e redefine o estado
+                ttbView.Text = resultado.ToString("G"); // Usar formato geral para lidar com precisão
+                valorAtual = resultado;
+                operador = "";
+                operacaoEmAndamento = true;
+            }
+            else
+            {
+                MessageBox.Show("Erro: Entrada inválida.");
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -210,10 +192,8 @@ namespace CalculadoraWindowsForms
 
         private void btnPoint_Click(object sender, EventArgs e)
         {
-            // Verifica se o texto atual no visor já contém um ponto
             if (!ttbView.Text.Contains("."))
             {
-                // Se não contiver, adiciona o ponto ao final do texto
                 ttbView.Text += ".";
             }
         }

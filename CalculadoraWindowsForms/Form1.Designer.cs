@@ -259,7 +259,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(364, 348);
+            ClientSize = new Size(367, 348);
             Controls.Add(ttbView);
             Controls.Add(btnPoint);
             Controls.Add(btnEqual);
